@@ -1,6 +1,6 @@
 <h1>Pick an account list</h1>
 <ul>
   <% @account_lists.each do |account_list| %>
-    <li><%= link_to account_list['attributes']['name'], stat_path(account_list['id']) %></li>
+    <li><%= link_to account_list['attributes']['name'], stat_path(account_list['id'], token: params[:token]) %></li>
   <% end %>
 </ul>

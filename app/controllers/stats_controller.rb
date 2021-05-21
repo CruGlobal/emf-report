@@ -4,8 +4,7 @@ class StatsController < ApplicationController
   end
 
   def show
-    load_data_for(params[:id])
-    @table = AccountListStats.new(load_data_for(params[:id])).table
+    @table = AccountListStatsTable.new(load_data_for(params[:id])).table
   end
 
   private
@@ -13,10 +12,12 @@ class StatsController < ApplicationController
   def load_data_for(account_list_id)
     activity_results_endpoint = "https://api.stage.mpdx.org/api/v2/tasks/analytics?filter%5Baccount_list_id%5D=#{account_list_id}"
     json = {}
-    analytics = account_list_analytics(account_list_id, '2021-05-16..2021-05-22')['data']
-    json['data'] = [analytics, analytics, analytics, analytics, analytics]
-    json['data'][0]['attributes']['appointments']['completed'] = 1
-    @data = zip_tags_report(json, tags_report(account_list_id))
+    tags_data = tags_report(account_list_id)
+    json['data'] = tags_data['data'].map do |tag_data_row|
+      p data_range = "#{tag_data_row['attributes']['start_date']}..#{tag_data_row['attributes']['end_date']}"
+      account_list_analytics(account_list_id, data_range)['data']
+    end
+    @data = zip_tags_report(json, tags_data)
   end
 
   def zip_tags_report(data, tags_report)
@@ -34,14 +35,12 @@ class StatsController < ApplicationController
   end
 
   def fetch_account_lists
-    RestClient.log = 'stdout'
-    json = RestClient.get('https://api.stage.mpdx.org/api/v2/user/account_list_coaches?include=account_list', accept: "application/vnd.api+json", Authorization: auth_header, "content-type" => "application/vnd.api+json" )
-    json = JSON.parse(json)
+    json = mpdx_rest_get('https://api.stage.mpdx.org/api/v2/user/account_list_coaches?include=account_list')
     @account_lists = json['included'].select { |h| h['type'] == 'account_lists' }
   end
 
   def auth_header
-    "Bearer asdf"
+    "Bearer #{params[:token]}"
   end
 
   def tags_report(account_list_id)

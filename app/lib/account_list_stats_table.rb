@@ -1,4 +1,4 @@
-class AccountListStats
+class AccountListStatsTable
   def initialize(data)
     @data = data
   end
@@ -35,7 +35,11 @@ class AccountListStats
   end
 
   def newsletter_row
-    cells = [{ text: 'Last Prayer Letter (Put an "X" in week it was sent)' }, { text: 'Newsletter - Physical, Newsletter - Email' }, { text: '25' }]
+    cells = [
+      { text: 'Last Prayer Letter (Put an "X" in week it was sent)' },
+      { text: 'Newsletter - Physical, Newsletter - Email' },
+      { text: '25' }
+    ]
     weeks.times do |i|
       cells << { text: '', class: 'cell-white' }
       cells << { text: '' }
@@ -44,7 +48,10 @@ class AccountListStats
   end
 
   def task_action_rows
-    [{ type: "header", cells: [{ text: 'From MPDX Coaching Report' }, { text: 'MPDX Task Action' }] }] +
+    header_row = {
+      type: "header", cells: [{ text: 'From MPDX Coaching Report' }, { text: 'MPDX Task Action' }]
+    }
+    [header_row] +
     task_action_mappings.map do |mapping|
       cells = [{ text: mapping[:name] }, { text: mapping[:actions] }, { text: mapping[:points] }]
       weeks.times do |i|
@@ -57,7 +64,14 @@ class AccountListStats
   end
 
   def task_tags_rows
-    [{ type: "header", cells: [{ text: 'For any activity, add the following bonus points [Using MPDX Task Tags]' }, { text: 'Where to find on MPDX Coaching Report' }] }] +
+    header_row = {
+      type: "header",
+      cells: [
+        { text: 'For any activity, add the following bonus points [Using MPDX Task Tags]' },
+        { text: 'Where to find on MPDX Coaching Report' }
+      ]
+    }
+    [header_row] +
     task_tags_mappings.map do |mapping|
       cells = [{ text: mapping[:name] }, { text: mapping[:actions] }, { text: mapping[:points] }]
       weeks.times do |i|
@@ -72,7 +86,7 @@ class AccountListStats
   def totals_row(previous_rows)
     cells = [{ text: 'Weekly effort goal' }, { text: '' }, { text: '200' }]
     weeks.times do |i|
-      col_number = 2 + (i * 2)
+      col_number = 4 + (i * 2)
       sum = previous_rows.map { |r| r.dig(:cells, col_number, :text) }.select {|v| v.is_a? Numeric }.sum
       cells << { text: '' }
       cells << { text: sum, class: (sum >= 200 ? 'cell-green' : nil) }
