@@ -4,6 +4,7 @@ class StatsController < ApplicationController
   end
 
   def show
+    fetch_account_list(params[:id])
     @table = AccountListStatsTable.new(load_data_for(params[:id])).table
   end
 
@@ -34,6 +35,10 @@ class StatsController < ApplicationController
     data
   end
 
+  def fetch_account_list(account_list_id)
+    @account_list = mpdx_rest_get("https://api.stage.mpdx.org/api/v2/account_lists/#{account_list_id}?fields[account_lists]=name")['data']
+  end
+
   def fetch_account_lists
     json = mpdx_rest_get('https://api.stage.mpdx.org/api/v2/user/account_list_coaches?include=account_list')
     @account_lists = json['included'].select { |h| h['type'] == 'account_lists' }
@@ -44,8 +49,11 @@ class StatsController < ApplicationController
   end
 
   def tags_report(account_list_id)
-    url = "https://api.stage.mpdx.org/api/v2/reports/tag_histories?filter%5Baccount_list_id%5D=#{account_list_id}&filter%5Bassociation%5D=tasks&filter%5Brange%5D=5w"
-    mpdx_rest_get(url)
+    weeks = 5
+    url = "https://api.stage.mpdx.org/api/v2/reports/tag_histories?filter%5Baccount_list_id%5D=#{account_list_id}&filter%5Bassociation%5D=tasks&filter%5Brange%5D=#{weeks}w"
+    json = mpdx_rest_get(url)
+    json['data'] = json['data'][0..(weeks - 1)]
+    json
   end
 
   def account_list_analytics(account_list_id, date_range)

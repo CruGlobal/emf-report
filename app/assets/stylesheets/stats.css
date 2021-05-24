@@ -1,7 +1,22 @@
-/*
-  Place all the styles related to the matching controller here.
-  They will automatically be included in application.css.
-*/
-tr, th {
-  padding-left: 1em;
+table, th, td {
+  border: 1px solid rgb(211, 211, 211);
+  border-collapse: collapse;
+  min-width: 25px;
+}
+
+th, td {
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+table {
+  background-color: rgb(238, 238, 238);
+}
+
+.cell-white {
+  background-color: white;
+}
+
+.cell-data {
+  text-align: center;
 }

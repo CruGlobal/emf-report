@@ -1,6 +1,7 @@
 class AccountListStatsTable
   def initialize(data)
     @data = data
+    @data = @data['data'] if @data.key?('data')
   end
 
   def table
@@ -21,7 +22,12 @@ class AccountListStatsTable
 
   def weeks_header_row
     cells = [{ text: '', colspan: '3' }]
-    weeks.times { |i| cells << { text: "Week #{i + 1}", colspan: '2' } }
+
+    weeks.times do |i|
+      start_date = DateTime.parse(@data[i]['attributes']['start_date']).strftime('%b&nbsp;%d')
+      end_date = DateTime.parse(@data[i]['attributes']['end_date']).strftime('%b&nbsp;%d')
+      cells << { text: "Week #{i + 1} <br> #{start_date}-#{end_date}".html_safe, colspan: '2' }
+    end
     { type: "header", cells: cells }
   end
 
@@ -38,7 +44,7 @@ class AccountListStatsTable
     cells = [
       { text: 'Last Prayer Letter (Put an "X" in week it was sent)' },
       { text: 'Newsletter - Physical, Newsletter - Email' },
-      { text: '25' }
+      { text: '25', class: 'cell-data' }
     ]
     weeks.times do |i|
       cells << { text: '', class: 'cell-white' }
@@ -53,11 +59,11 @@ class AccountListStatsTable
     }
     [header_row] +
     task_action_mappings.map do |mapping|
-      cells = [{ text: mapping[:name] }, { text: mapping[:actions] }, { text: mapping[:points] }]
+      cells = [{ text: mapping[:name] }, { text: mapping[:actions] }, { text: mapping[:points], class: 'cell-data' }]
       weeks.times do |i|
-        times = @data['data'][i]['attributes'].dig(*mapping[:data_attribute].split('.')).to_i
-        cells << { text: times, class: 'cell-white' }
-        cells << { text: times * mapping[:points] }
+        times = @data[i]['attributes'].dig(*mapping[:data_attribute].split('.')).to_i
+        cells << { text: times, class: 'cell-data cell-white' }
+        cells << { text: times * mapping[:points], class: 'cell-data' }
       end
       { cells: cells }
     end
@@ -73,33 +79,33 @@ class AccountListStatsTable
     }
     [header_row] +
     task_tags_mappings.map do |mapping|
-      cells = [{ text: mapping[:name] }, { text: mapping[:actions] }, { text: mapping[:points] }]
+      cells = [{ text: mapping[:name] }, { text: mapping[:actions] }, { text: mapping[:points], class: 'cell-data' }]
       weeks.times do |i|
-        times = @data['data'][i]['attributes'].dig(*mapping[:data_attribute].split('.')).to_i
-        cells << { text: times, class: 'cell-white' }
-        cells << { text: times * mapping[:points] }
+        times = @data[i]['attributes'].dig(*mapping[:data_attribute].split('.')).to_i
+        cells << { text: times, class: 'cell-data cell-white' }
+        cells << { text: times * mapping[:points], class: 'cell-data' }
       end
       { cells: cells }
     end
   end
 
   def totals_row(previous_rows)
-    cells = [{ text: 'Weekly effort goal' }, { text: '' }, { text: '200' }]
+    cells = [{ text: 'Weekly effort goal' }, { text: '' }, { text: '200', class: 'cell-data' }]
     weeks.times do |i|
       col_number = 4 + (i * 2)
       sum = previous_rows.map { |r| r.dig(:cells, col_number, :text) }.select {|v| v.is_a? Numeric }.sum
       cells << { text: '' }
-      cells << { text: sum, class: (sum >= 200 ? 'cell-green' : nil) }
+      cells << { text: sum, class: (sum >= 200 ? 'cell-data cell-green' : 'cell-data') }
     end
     { cells: cells }
   end
 
   def blank_row
-    { cells: [{ text: '_' }] }
+    { cells: [{ text: '&nbsp;'.html_safe, colspan: 3 + (weeks * 2) }] }
   end
 
   def weeks
-    5
+    @data.count
   end
 
   def task_action_mappings
