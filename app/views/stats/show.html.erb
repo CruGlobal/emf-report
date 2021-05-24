@@ -1,4 +1,5 @@
 <h1>Data for <%= @account_list['attributes']['name'] %></h1>
+<%= link_to 'Pick Different Account List', stats_path(token: params[:token], env: params[:env]) %>
 
 <table>
   <% @table.each do |row| %>
