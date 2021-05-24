@@ -1,6 +1,6 @@
 class StatsController < ApplicationController
   def index
-    @account_lists = loader.load_account_list
+    @account_lists = loader.load_account_lists
   end
 
   def show
