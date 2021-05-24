@@ -31,7 +31,7 @@ class AccountListStatsLoader
       data_row['attributes']['tags'] ||= {}
       end_date = data_row['attributes']['end_date'][0..9]
       tag_report_row = tags_report['data'].find { |r| r['attributes']['end_date'] == end_date }
-      tag_report_row['attributes']['tags']&.each do |tag|
+      tag_report_row&.dig('attributes', 'tags')&.each do |tag|
         tag_name = tag['name']
         tag_count = tag['count']
         data_row['attributes']['tags'][tag_name] = tag_count
