@@ -12,6 +12,6 @@ class StatsController < ApplicationController
   private
 
   def loader
-    @loader ||= AccountListStatsLoader.new(account_list_id: params[:id], token: params[:token])
+    @loader ||= AccountListStatsLoader.new(account_list_id: params[:id], token: params[:token], env: params[:env])
   end
 end

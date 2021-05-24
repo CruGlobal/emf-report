@@ -1,8 +1,8 @@
 class AccountListStatsLoader
-  def initialize(account_list_id:, token:, env: :stage)
+  def initialize(account_list_id:, token:, env:)
     @account_list_id = account_list_id
     @token = token
-    @env = env
+    @env = env.presence&.to_sym || :stage
   end
 
   def load_stats
@@ -57,7 +57,11 @@ class AccountListStatsLoader
   end
 
   def url_host
-    'https://api.stage.mpdx.org'
+    if @env == :prod
+      'https://api.mpdx.org'
+    else
+      'https://api.stage.mpdx.org'
+    end
   end
 
   def mpdx_rest_get(url)
