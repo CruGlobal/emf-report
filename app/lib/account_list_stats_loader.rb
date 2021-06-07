@@ -5,8 +5,8 @@ class AccountListStatsLoader
     @env = env.presence&.to_sym || :stage
   end
 
-  def load_stats
-    tags_data = tags_report
+  def load_stats(type)
+    tags_data = tags_report(type)
     json = {}
     json['data'] = tags_data['data'].map do |tag_data_row|
       data_range = "#{tag_data_row['attributes']['start_date']}..#{tag_data_row['attributes']['end_date']}"
@@ -40,10 +40,14 @@ class AccountListStatsLoader
     data
   end
 
-  def tags_report
-    url = "/api/v2/reports/tag_histories?filter%5Baccount_list_id%5D=#{@account_list_id}&filter%5Bassociation%5D=tasks&filter%5Brange%5D=#{weeks}w"
+  def tags_report(type)
+    range = "#{number_of_time_periods}#{type == :weekly ? 'w' : 'm'}"
+    url = "/api/v2/reports/tag_histories?"\
+      "filter%5Baccount_list_id%5D=#{@account_list_id}&"\
+      "filter%5Bassociation%5D=tasks&"\
+      "filter%5Brange%5D=#{range}"
     json = mpdx_rest_get(url)
-    json['data'] = json['data'][0..(weeks - 1)]
+    json['data'] = json['data'][0..(number_of_time_periods - 1)]
     json
   end
 
@@ -52,7 +56,7 @@ class AccountListStatsLoader
     mpdx_rest_get(account_list_analytics_endpoint)
   end
 
-  def weeks
+  def number_of_time_periods
     5
   end
 

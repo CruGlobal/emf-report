@@ -1,5 +1,9 @@
 <h1>Data for <%= @account_list['attributes']['name'] %></h1>
-<%= link_to 'Pick Different Account List', stats_path(token: params[:token], env: params[:env]) %>
+<p><%= link_to 'Pick Different Account List', stats_path(token: params[:token], env: params[:env]) %></p>
+<p>
+  <%= link_to 'Weekly', stat_weekly_path(params[:stat_id], token: params[:token], env: params[:env]) %> -
+  <%= link_to 'Monthly', stat_monthly_path(params[:stat_id], token: params[:token], env: params[:env]) %>
+</p>
 
 <table>
   <% @table.each do |row| %>
