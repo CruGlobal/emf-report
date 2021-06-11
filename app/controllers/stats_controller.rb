@@ -1,4 +1,6 @@
 class StatsController < ApplicationController
+  before_action :ensure_mpdx_active
+
   def index
     @account_lists = loader.load_account_lists
   end
@@ -21,7 +23,18 @@ class StatsController < ApplicationController
 
   def loader
     @loader ||= AccountListStatsLoader.new(account_list_id: params[:stat_id],
-                                           token: params[:token],
+                                           token: session[:mpdx_token],
                                            env: params[:env])
+  end
+
+  def ensure_mpdx_active
+    return if session[:mpdx_expires_at].to_i > DateTime.now.to_i
+    if session[:okta_expires_at].to_i < 30.seconds.from_now.to_i
+      redirect_to login_url
+      return false
+    end
+    token = MPDXLogin.login(session[:okta_access_token])
+    session[:mpdx_token] = token.token
+    session[:mpdx_expires_at] = token.expires_at
   end
 end

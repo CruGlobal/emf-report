@@ -20,6 +20,7 @@ gem 'rest-client'
 gem 'pry-byebug'
 
 group :development, :test do
+  gem 'dotenv-rails', '~> 2.7.6', require: 'dotenv/rails-now'
 end
 
 group :development do
