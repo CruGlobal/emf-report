@@ -1,5 +1,6 @@
-<h1>Data for <%= @account_list['attributes']['name'] %></h1>
-<p><%= link_to 'Pick Different Account List', stats_path(env: params[:env]) %></p>
+<h2>Level of Effort Report for</h2>
+<h1><%= @account_list['attributes']['name'] %></h1>
+<p><%= link_to 'Pick Different Account', stats_path(env: params[:env]) %></p>
 <p>
   <%= link_to 'Weekly', stat_weekly_path(params[:stat_id], env: params[:env]) %> -
   <%= link_to 'Monthly', stat_monthly_path(params[:stat_id], env: params[:env]) %>

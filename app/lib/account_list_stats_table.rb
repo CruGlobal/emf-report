@@ -54,7 +54,7 @@ class AccountListStatsTable
   def newsletter_row
     cells = [
       {text: 'Last Prayer Letter (Put an "X" in week it was sent)'},
-      {text: "Newsletter - Physical, Newsletter - Email"},
+      {text: "Newsletter - Physical or Email"},
       {text: "25", class: "cell-data"}
     ]
     number_of_time_periods.times do |i|
