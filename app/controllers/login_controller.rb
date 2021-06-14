@@ -21,7 +21,7 @@ class LoginController < ApplicationController
 
   def clear
     session.clear
-    render plain: 'OK'
+    render plain: "OK"
   end
 
   private

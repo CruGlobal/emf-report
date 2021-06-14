@@ -9,4 +9,6 @@ Rails.application.routes.draw do
   get "auth/oktaoauth/callback", to: "login#callback"
   get "login/clear", to: "login#clear"
   get "login/error", to: "login#error"
+
+  root to: redirect("/stats")
 end
