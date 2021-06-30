@@ -24,6 +24,14 @@ table {
   background-color: white;
 }
 
+.cell-green {
+  background-color: rgb(175, 228, 175);
+}
+
 .cell-data {
   text-align: center;
+}
+
+.cell-data--bold {
+  font-weight: bold;
 }
