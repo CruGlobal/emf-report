@@ -39,7 +39,7 @@ class AccountListStatsTable
     else
       text = DateTime.parse(attributes["start_date"]).strftime("%b&nbsp;%Y")
     end
-    {text: text.html_safe, colspan: "2", class: (white ? "cell-white" : nil) }
+    {text: text.html_safe, colspan: "2", class: (white ? "cell-white" : nil)}
   end
 
   def main_header_row
@@ -106,7 +106,11 @@ class AccountListStatsTable
 
   def totals_row(previous_rows, type)
     goal = type == :weekly ? 200 : 800
-    cells = [{text: "Weekly effort goal"}, {text: ""}, {text: goal, class: "cell-data"}]
+    cells = [
+      {text: "#{type.capitalize} effort goal"},
+      {text: ""},
+      {text: goal, class: "cell-data"}
+    ]
     number_of_time_periods.times do |i|
       col_number = 4 + (i * 2)
       sum = previous_rows.map { |r| r.dig(:cells, col_number, :text) }.select { |v| v.is_a? Numeric }.sum
