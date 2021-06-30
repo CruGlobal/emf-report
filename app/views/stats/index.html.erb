@@ -1,6 +1,15 @@
 <h1>Pick an account</h1>
+
+<h2>Your Accounts:</h2>
 <ul>
-  <% @account_lists.each do |account_list| %>
+  <% @user_account_lists.each do |account_list| %>
+    <li><%= link_to account_list['attributes']['name'], stat_weekly_path(account_list['id'], env: params[:env]) %></li>
+  <% end %>
+</ul>
+
+<h2>Accounts You Coach:</h2>
+<ul>
+  <% @coaching_account_lists.each do |account_list| %>
     <li><%= link_to account_list['attributes']['name'], stat_weekly_path(account_list['id'], env: params[:env]) %></li>
   <% end %>
 </ul>

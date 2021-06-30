@@ -2,7 +2,8 @@ class StatsController < ApplicationController
   before_action :ensure_mpdx_active
 
   def index
-    @account_lists = loader.load_account_lists
+    @user_account_lists = loader.load_user_ccount_lists
+    @coaching_account_lists = loader.load_coaching_ccount_lists
   end
 
   def weekly

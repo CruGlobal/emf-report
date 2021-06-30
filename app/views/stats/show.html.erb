@@ -1,5 +1,5 @@
-<h2>Level of Effort Report for</h2>
-<h1><%= @account_list['attributes']['name'] %></h1>
+<h2 class="m-bottom-0">Level of Effort Report for</h2>
+<h1 class="m-top-0"><%= @account_list['attributes']['name'] %></h1>
 <p><%= link_to 'Pick Different Account', stats_path(env: params[:env]) %></p>
 <p>
   <%= link_to 'Weekly', stat_weekly_path(params[:stat_id], env: params[:env]) %> -
