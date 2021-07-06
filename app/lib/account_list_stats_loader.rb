@@ -21,12 +21,12 @@ class AccountListStatsLoader
 
   def load_user_ccount_lists
     json = mpdx_rest_get("/api/v2/account_lists")
-    @account_lists = json["data"].select { |h| h["type"] == "account_lists" }
+    (json["data"] || []).select { |h| h["type"] == "account_lists" }
   end
 
   def load_coaching_ccount_lists
     json = mpdx_rest_get("/api/v2/user/account_list_coaches?include=account_list")
-    @account_lists = json["included"].select { |h| h["type"] == "account_lists" }
+    (json["included"] || []).select { |h| h["type"] == "account_lists" }
   end
 
   private
