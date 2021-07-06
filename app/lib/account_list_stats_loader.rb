@@ -57,8 +57,11 @@ class AccountListStatsLoader
   end
 
   def account_list_analytics(date_range)
-    account_list_analytics_endpoint = "/api/v2/account_lists/#{@account_list_id}/analytics?filter%5Bdate_range%5D=#{date_range}"
-    mpdx_rest_get(account_list_analytics_endpoint)
+    account_list_analytics_endpoint = "/api/v2/account_lists/#{@account_list_id}/analytics"
+    account_list_analytics_params = {
+      filter: { date_range: date_range }
+    }
+    mpdx_rest_get(account_list_analytics_endpoint, account_list_analytics_params)
   end
 
   def number_of_time_periods
@@ -73,9 +76,10 @@ class AccountListStatsLoader
     end
   end
 
-  def mpdx_rest_get(url)
+  def mpdx_rest_get(url, params = {})
     url = url_host + url
     resp = RestClient.get(url,
+      :params => params,
       :accept => "application/vnd.api+json",
       :Authorization => auth_header,
       "content-type" => "application/vnd.api+json")
