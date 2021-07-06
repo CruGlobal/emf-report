@@ -22,10 +22,10 @@ class MPDXLogin
   end
 
   def self.url_host
-    if @env == :prod
-      "https://api.mpdx.org"
-    else
+    if @env == :stage
       "https://api.stage.mpdx.org"
+    else
+      "https://api.mpdx.org"
     end
   end
 end
