@@ -36,6 +36,6 @@ class StatsController < ApplicationController
     end
     token = MPDXLogin.login(session[:okta_access_token])
     session[:mpdx_token] = token.token
-    session[:mpdx_expires_at] = token.expires_at
+    session[:mpdx_expires_at] = token.expires_at.to_i
   end
 end
