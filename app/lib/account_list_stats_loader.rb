@@ -75,7 +75,11 @@ class AccountListStatsLoader
 
   def mpdx_rest_get(url)
     url = url_host + url
-    JSON.parse(RestClient.get(url, :accept => "application/vnd.api+json", :Authorization => auth_header, "content-type" => "application/vnd.api+json"))
+    resp = RestClient.get(url,
+      :accept => "application/vnd.api+json",
+      :Authorization => auth_header,
+      "content-type" => "application/vnd.api+json")
+    JSON.parse(resp)
   end
 
   def auth_header

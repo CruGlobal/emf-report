@@ -8,7 +8,7 @@ class AccountListStatsTable
     rows = [
       dates_header_row(type),
       main_header_row,
-      newsletter_row,
+      newsletter_row(type),
       blank_row
     ]
     rows += task_action_rows
@@ -52,18 +52,32 @@ class AccountListStatsTable
     {type: "header", cells: cells}
   end
 
-  def newsletter_row
+  def newsletter_row(type)
     cells = [
       {text: 'Last Prayer Letter (Put an "X" in week it was sent)'},
       {text: "Newsletter - Physical or Email"},
       {text: "25", class: "cell-data"}
     ]
+    periods_to_score = tally_newsletters_for_periods(type)
     number_of_time_periods.times do |i|
       white = i.even?
-      cells << {text: "", class: (white ? "cell-white" : nil)}
-      cells << {text: "", class: (white ? "cell-white" : nil)}
+      sent_letter = periods_to_score[i]
+      cells << {text: sent_letter ? "X" : "", class: (white ? "cell-data cell-white" : "cell-data")}
+      cells << {text: sent_letter ? 25 : "", class: (white ? "cell-data cell-white" : "cell-data")}
     end
     {cells: cells}
+  end
+
+  def tally_newsletters_for_periods(type)
+    tallies = number_of_time_periods.times.map do |i|
+      @data[i]["attributes"]["correspondence"]["newsletters"].to_i.positive?
+    end
+    return tallies unless type == :weekly
+
+    tallies.map.with_index do |value, i|
+      future_tallies = tallies[(i+1)..-1]
+      value && !future_tallies.any?
+    end
   end
 
   def task_action_rows
