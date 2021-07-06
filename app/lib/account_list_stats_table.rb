@@ -39,15 +39,16 @@ class AccountListStatsTable
     else
       text = DateTime.parse(attributes["start_date"]).strftime("%b&nbsp;%Y")
     end
-    {text: text.html_safe, colspan: "2", class: (white ? "cell-white" : nil)}
+    color = white ? :white : nil
+    {text: text.html_safe, colspan: "2", class: cell_class(color)}
   end
 
   def main_header_row
     cells = [{text: "Newsletter"}, {text: ""}, {text: "Points"}]
     number_of_time_periods.times do |i|
-      white = i.even?
-      cells << {text: "#", class: (white ? "cell-white" : nil)}
-      cells << {text: "Points", class: (white ? "cell-white" : nil)}
+      color = i.even? ? :white : nil
+      cells << {text: "#", class: cell_class(color)}
+      cells << {text: "Points", class: cell_class(color)}
     end
     {type: "header", cells: cells}
   end
@@ -56,14 +57,14 @@ class AccountListStatsTable
     cells = [
       {text: 'Last Prayer Letter (Put an "X" in week it was sent)'},
       {text: "Newsletter - Physical or Email"},
-      {text: "25", class: "cell-data"}
+      {text: "25", class: data_class}
     ]
     periods_to_score = tally_newsletters_for_periods(type)
     number_of_time_periods.times do |i|
-      white = i.even?
       sent_letter = periods_to_score[i]
-      cells << {text: sent_letter ? "X" : "", class: (white ? "cell-data cell-white" : "cell-data")}
-      cells << {text: sent_letter ? 25 : "", class: (white ? "cell-data cell-data--bold cell-white" : "cell-data cell-data--bold")}
+      color = i.even? ? :white : nil
+      cells << {text: sent_letter ? "X" : "", class: data_class(color)}
+      cells << {text: sent_letter ? 25 : "", class: data_class(color, true)}
     end
     {cells: cells}
   end
@@ -75,7 +76,7 @@ class AccountListStatsTable
     return tallies unless type == :weekly
 
     tallies.map.with_index do |value, i|
-      future_tallies = tallies[(i+1)..-1]
+      future_tallies = tallies[(i + 1)..]
       value && !future_tallies.any?
     end
   end
@@ -84,17 +85,7 @@ class AccountListStatsTable
     header_row = {
       type: "header", cells: [{text: "From MPDX Coaching Report"}, {text: "MPDX Task Action"}]
     }
-    [header_row] +
-      task_action_mappings.map do |mapping|
-        cells = [{text: mapping[:name]}, {text: mapping[:actions]}, {text: mapping[:points], class: "cell-data"}]
-        number_of_time_periods.times do |i|
-          times = @data[i]["attributes"].dig(*mapping[:data_attribute].split(".")).to_i
-          white = i.even?
-          cells << {text: times, class: (white ? "cell-data cell-white" : "cell-data")}
-          cells << {text: times * mapping[:points], class: (white ? "cell-data cell-data--bold cell-white" : "cell-data cell-data--bold")}
-        end
-        {cells: cells}
-      end
+    [header_row] + row_for_mapping(task_action_mappings)
   end
 
   def task_tags_rows
@@ -105,17 +96,20 @@ class AccountListStatsTable
         {text: "Where to find on MPDX Coaching Report"}
       ]
     }
-    [header_row] +
-      task_tags_mappings.map do |mapping|
-        cells = [{text: mapping[:name]}, {text: mapping[:actions]}, {text: mapping[:points], class: "cell-data"}]
-        number_of_time_periods.times do |i|
-          times = @data[i]["attributes"].dig(*mapping[:data_attribute].split(".")).to_i
-          white = i.even?
-          cells << {text: times, class: (white ? "cell-data cell-white" : "cell-data")}
-          cells << {text: times * mapping[:points], class: (white ? "cell-data cell-data--bold cell-white" : "cell-data cell-data--bold")}
-        end
-        {cells: cells}
+    [header_row] + row_for_mapping(task_tags_mappings)
+  end
+
+  def row_for_mapping(mapping)
+    mapping.map do |mapping|
+      cells = [{text: mapping[:name]}, {text: mapping[:actions]}, {text: mapping[:points], class: data_class}]
+      number_of_time_periods.times do |i|
+        times = @data[i]["attributes"].dig(*mapping[:data_attribute].split(".")).to_i
+        color = i.even? ? :white : nil
+        cells << {text: times, class: data_class(color)}
+        cells << {text: times * mapping[:points], class: data_class(color, true)}
       end
+      {cells: cells}
+    end
   end
 
   def totals_row(previous_rows, type)
@@ -123,23 +117,28 @@ class AccountListStatsTable
     cells = [
       {text: "#{type.capitalize} effort goal"},
       {text: ""},
-      {text: goal, class: "cell-data"}
+      {text: goal, class: data_class}
     ]
     number_of_time_periods.times do |i|
       col_number = 4 + (i * 2)
       sum = previous_rows.map { |r| r.dig(:cells, col_number, :text) }.select { |v| v.is_a? Numeric }.sum
-      white = i.even?
-      cells << {text: "", class: (white ? "cell-white" : nil)}
-      color = if sum >= goal
-        "cell-green"
-      elsif white
-        "cell-white"
-      else
-        ""
-      end
-      cells << {text: sum, class: "cell-data cell-data--bold #{color}"}
+      color = i.even? ? :white : nil
+      cells << {text: "", class: cell_class(color)}
+      color = :green if sum >= goal
+      cells << {text: sum, class: data_class(color, true)}
     end
     {cells: cells}
+  end
+
+  def cell_class(color = :gray, bold = false)
+    [
+      bold ? "cell-data--bold" : nil,
+      color != :gray ? "cell-#{color}" : nil
+    ].compact.join(" ")
+  end
+
+  def data_class(color = :gray, bold = false)
+    "cell-data #{cell_class(color, bold)}"
   end
 
   def blank_row

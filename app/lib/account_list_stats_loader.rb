@@ -59,7 +59,7 @@ class AccountListStatsLoader
   def account_list_analytics(date_range)
     account_list_analytics_endpoint = "/api/v2/account_lists/#{@account_list_id}/analytics"
     account_list_analytics_params = {
-      filter: { date_range: date_range }
+      filter: {date_range: date_range}
     }
     mpdx_rest_get(account_list_analytics_endpoint, account_list_analytics_params)
   end
