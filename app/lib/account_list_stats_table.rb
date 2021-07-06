@@ -35,7 +35,7 @@ class AccountListStatsTable
     if type == :weekly
       start_date = DateTime.parse(attributes["start_date"]).strftime("%b&nbsp;%d")
       end_date = DateTime.parse(attributes["end_date"]).strftime("%b&nbsp;%d")
-      text = "Week #{index + 1} <br> #{start_date}-#{end_date}"
+      text = "#{start_date}-#{end_date}"
     else
       text = DateTime.parse(attributes["start_date"]).strftime("%b&nbsp;%Y")
     end
@@ -63,7 +63,7 @@ class AccountListStatsTable
       white = i.even?
       sent_letter = periods_to_score[i]
       cells << {text: sent_letter ? "X" : "", class: (white ? "cell-data cell-white" : "cell-data")}
-      cells << {text: sent_letter ? 25 : "", class: (white ? "cell-data cell-white" : "cell-data")}
+      cells << {text: sent_letter ? 25 : "", class: (white ? "cell-data cell-data--bold cell-white" : "cell-data cell-data--bold")}
     end
     {cells: cells}
   end
@@ -91,7 +91,7 @@ class AccountListStatsTable
           times = @data[i]["attributes"].dig(*mapping[:data_attribute].split(".")).to_i
           white = i.even?
           cells << {text: times, class: (white ? "cell-data cell-white" : "cell-data")}
-          cells << {text: times * mapping[:points], class: (white ? "cell-data cell-white" : "cell-data")}
+          cells << {text: times * mapping[:points], class: (white ? "cell-data cell-data--bold cell-white" : "cell-data cell-data--bold")}
         end
         {cells: cells}
       end
@@ -112,7 +112,7 @@ class AccountListStatsTable
           times = @data[i]["attributes"].dig(*mapping[:data_attribute].split(".")).to_i
           white = i.even?
           cells << {text: times, class: (white ? "cell-data cell-white" : "cell-data")}
-          cells << {text: times * mapping[:points], class: (white ? "cell-data cell-white" : "cell-data")}
+          cells << {text: times * mapping[:points], class: (white ? "cell-data cell-data--bold cell-white" : "cell-data cell-data--bold")}
         end
         {cells: cells}
       end
