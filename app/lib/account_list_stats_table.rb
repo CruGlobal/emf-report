@@ -103,7 +103,10 @@ class AccountListStatsTable
     mapping.map do |mapping|
       cells = [{text: mapping[:name]}, {text: mapping[:actions]}, {text: mapping[:points], class: data_class}]
       number_of_time_periods.times do |i|
-        times = @data[i]["attributes"].dig(*mapping[:data_attribute].split(".")).to_i
+        times = 0
+        mapping[:data_attribute].split("+").each do |map|
+          times += @data[i]["attributes"].dig(*map.split(".")).to_i
+        end
         color = i.even? ? :white : nil
         cells << {text: times, class: data_class(color)}
         cells << {text: times * mapping[:points], class: data_class(color, true)}
@@ -157,7 +160,7 @@ class AccountListStatsTable
       {name: "Correspondence: Support", actions: "Support Letter", points: 2, data_attribute: "correspondence.support_letters"},
       {name: "Correspondence: Thank You", actions: "Thank", points: 1, data_attribute: "correspondence.thank_yous"},
       {name: "Correspondence: Reminder", actions: "Reminder Letter", points: 3, data_attribute: "correspondence.reminders"},
-      {name: "Phone Calls: Outgoing & Received", actions: "Call", points: 1, data_attribute: "phone.completed"},
+      {name: "Phone Calls: Outgoing & Received", actions: "Call", points: 1, data_attribute: "phone.completed+phone.received"},
       {name: "Phone Calls: Talked to", actions: "Call", points: 2, data_attribute: "phone.completed"},
       {name: "Electronic Messages: Sent", actions: "Email, Text Message, Facebook Message", points: 1, data_attribute: "electronic.sent"}
     ]
