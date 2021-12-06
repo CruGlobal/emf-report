@@ -160,7 +160,7 @@ class AccountListStatsTable
       {name: "Correspondence: Support", actions: "Support Letter", points: 2, data_attribute: "correspondence.support_letters"},
       {name: "Correspondence: Thank You", actions: "Thank", points: 1, data_attribute: "correspondence.thank_yous"},
       {name: "Correspondence: Reminder", actions: "Reminder Letter", points: 3, data_attribute: "correspondence.reminders"},
-      {name: "Phone Calls: Outgoing & Received", actions: "Call", points: 1, data_attribute: "phone.completed+phone.received"},
+      {name: "Phone Calls: Outgoing & Received", actions: "Call", points: 1, data_attribute: "phone.attempted+phone.completed+phone.received"},
       {name: "Phone Calls: Talked to", actions: "Call", points: 2, data_attribute: "phone.completed"},
       {name: "Electronic Messages: Sent", actions: "Email, Text Message, Facebook Message", points: 1, data_attribute: "electronic.sent"}
     ]
