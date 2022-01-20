@@ -170,7 +170,8 @@ class AccountListStatsTable
     [
       {name: 'Ask for financial support ("bonus" points) ["ask-financial"]', actions: "Task Tags", points: 5, data_attribute: "tags.ask-financial"},
       {name: 'Ask for referrals ("bonus" points) ["ask-referrals"]', actions: "Task Tags", points: 5, data_attribute: "tags.ask-referrals"},
-      {name: 'Ask to become an advocate ("bonus" points) ["ask-advocate"]', actions: "Task Tags", points: 10, data_attribute: "tags.ask-advocate"}
+      {name: 'Ask to become an advocate ("bonus" points) ["ask-advocate"]', actions: "Task Tags", points: 10, data_attribute: "tags.ask-advocate"},
+      {name: 'Circle Meeting ("bonus" points) ["circle-meeting"]', actions: "Task Tags", points: 5, data_attribute: "tags.circle-meeting"}
     ]
   end
 end
