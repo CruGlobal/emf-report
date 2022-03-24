@@ -72,7 +72,7 @@ class AccountListStatsLoader
     if @env == :stage
       "https://api.stage.mpdx.org"
     else
-      "https://api.mpdx.org"
+      "https://api.stage.mpdx.org" # use stage while developing "https://api.mpdx.org"
     end
   end
 

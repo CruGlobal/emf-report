@@ -7,6 +7,7 @@ class StatsController < ApplicationController
   end
 
   def weekly
+    binding.pry
     @account_list = loader.load_account_list
     @data = loader.load_stats(:weekly)
     @table = AccountListStatsTable.new(@data).table(:weekly)
@@ -19,6 +20,13 @@ class StatsController < ApplicationController
     @table = AccountListStatsTable.new(@data).table(:monthly)
     render :show
   end
+
+  def group_score_card
+    # add logic you'd need to handle multiple people
+    # only use :monthly 
+    # may need a new view apart from app/views/stats/show.html.erb
+  end
+
 
   private
 

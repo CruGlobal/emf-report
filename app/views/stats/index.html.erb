@@ -13,3 +13,12 @@
     <li><%= link_to account_list['attributes']['name'], stat_weekly_path(account_list['id'], env: params[:env]) %></li>
   <% end %>
 </ul>
+
+<h2>Accounts You Coach:</h2>
+<%= form_with url: stat_group_score_card_path, method: :get do |form| %>
+  <% @coaching_account_lists.each do |account_list| %>
+    <%= form.check_box :stat_id %>
+    <%= form.label :stat_id, "#{account_list['attributes']['name']}" %><br>
+  <% end %>
+  <%= form.submit "View Report" %>
+<% end %>
