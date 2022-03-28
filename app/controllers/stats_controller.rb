@@ -34,7 +34,6 @@ class StatsController < ApplicationController
   private
 
   def loader
-    # removed ||= because group_score_card wasn't pulling new data for multiple users
     @loader = AccountListStatsLoader.new(account_list_id: params[:stat_id],
                                            token: session[:mpdx_token],
                                            env: params[:env])
