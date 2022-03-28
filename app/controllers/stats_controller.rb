@@ -21,17 +21,22 @@ class StatsController < ApplicationController
   end
 
   def group_score_card
-    # add logic you'd need to handle multiple people
-    # only use :monthly 
-    # may need a new view apart from app/views/stats/show.html.erb
-    render :show # maybe create new view called group_score_card.html.erb
+    @data = {}
+    params[:stat_ids].each do |stat_id|
+      params[:stat_id] = stat_id
+      # use loader.load_account_list to pull person name and figure out how to add it into data 
+      # so you can pass it to be used by AccountListGroupStatsTable 
+      @data[stat_id] = loader.load_stats(:group)
+    end
+    @table = AccountListGroupStatsTable.new(@data).table(:group)
   end
 
 
   private
 
   def loader
-    @loader ||= AccountListStatsLoader.new(account_list_id: params[:stat_id],
+    # removed ||= because group_score_card wasn't pulling new data for multiple users
+    @loader = AccountListStatsLoader.new(account_list_id: params[:stat_id],
                                            token: session[:mpdx_token],
                                            env: params[:env])
   end

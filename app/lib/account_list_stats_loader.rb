@@ -46,13 +46,13 @@ class AccountListStatsLoader
   end
 
   def tags_report(type)
-    range = "#{number_of_time_periods}#{type == :weekly ? "w" : "m"}"
+    range = "#{number_of_time_periods(type)}#{type == :weekly ? "w" : "m"}"
     url = "/api/v2/reports/tag_histories?"\
       "filter%5Baccount_list_id%5D=#{@account_list_id}&"\
       "filter%5Bassociation%5D=tasks&"\
       "filter%5Brange%5D=#{range}"
     json = mpdx_rest_get(url)
-    json["data"] = json["data"][0..(number_of_time_periods - 1)]
+    json["data"] = json["data"][0..(number_of_time_periods(type) - 1)]
     json
   end
 
@@ -64,8 +64,13 @@ class AccountListStatsLoader
     mpdx_rest_get(account_list_analytics_endpoint, account_list_analytics_params)
   end
 
-  def number_of_time_periods
-    5
+  def number_of_time_periods(type)
+    case type
+    when :weekly, :monthly
+      5
+    else
+      1
+    end
   end
 
   def url_host

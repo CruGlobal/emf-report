@@ -18,9 +18,9 @@
 <%= form_with url: group_score_card_stats_path, method: :get do |form| %>
 
  <% @coaching_account_lists.each do |account_list| %>
-    <%= form.check_box :account_list_ids, {multiple: true}, account_list['id'], nil %>
-    <%= form.label :account_list_ids, "#{account_list['attributes']['name']}" %><br>
+    <%= form.check_box :stat_ids, {multiple: true}, account_list['id'], nil %>
+    <%= form.label :stat_ids, "#{account_list['attributes']['name']}" %><br>
   <% end %>  
-
+  <!-- don't forget to add in hidden field for :env -->
   <%= form.submit "View Report" %>
 <% end %>
