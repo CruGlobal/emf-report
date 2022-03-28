@@ -116,7 +116,7 @@ class AccountListStatsTable
   end
 
   def totals_row(previous_rows, type)
-    goal = type == :weekly ? 200 : 800
+    goal = goal(type)
     cells = [
       {text: "#{type.capitalize} effort goal"},
       {text: ""},
@@ -142,6 +142,17 @@ class AccountListStatsTable
 
   def data_class(color = :gray, bold = false)
     "cell-data #{cell_class(color, bold)}"
+  end
+
+  def goal(type)
+    case type
+    when :weekly
+      200
+    when :monthly
+      800
+    when :group
+      @data.count * 800
+    end
   end
 
   def blank_row

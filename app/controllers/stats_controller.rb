@@ -24,9 +24,8 @@ class StatsController < ApplicationController
     @data = {}
     params[:stat_ids].each do |stat_id|
       params[:stat_id] = stat_id
-      # use loader.load_account_list to pull person name and figure out how to add it into data 
-      # so you can pass it to be used by AccountListGroupStatsTable 
-      @data[stat_id] = loader.load_stats(:group)
+      name = loader.load_account_list["attributes"]["name"]
+      @data[name] = loader.load_stats(:group)
     end
     @table = AccountListGroupStatsTable.new(@data).table(:group)
   end
