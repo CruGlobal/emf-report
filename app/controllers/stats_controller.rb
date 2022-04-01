@@ -22,6 +22,8 @@ class StatsController < ApplicationController
 
   def group_score_card
     @data = {}
+    params[:stat_ids] = JSON.parse(params[:stat_ids]) if params[:stat_ids].instance_of?(String)
+
     params[:stat_ids].each do |stat_id|
       params[:stat_id] = stat_id
       name = loader.load_account_list["attributes"]["name"]
