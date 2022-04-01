@@ -25,7 +25,8 @@ class StatsController < ApplicationController
     params[:stat_ids].each do |stat_id|
       params[:stat_id] = stat_id
       name = loader.load_account_list["attributes"]["name"]
-      @data[name] = loader.load_stats(:group)
+      target_date = params[:target_date].to_date
+      @data[name] = loader.load_stats(:group, target_date)
     end
     @table = AccountListGroupStatsTable.new(@data).table(:group)
   end
