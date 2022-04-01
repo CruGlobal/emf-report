@@ -55,7 +55,7 @@ class AccountListStatsTable
 
   def newsletter_row(type)
     cells = [
-      {text: 'Last Prayer Letter (Put an "X" in week it was sent)'},
+      {text: 'Prayer Letter Sent'},
       {text: "Newsletter - Physical or Email"},
       {text: "25", class: data_class}
     ]
@@ -118,7 +118,7 @@ class AccountListStatsTable
   def totals_row(previous_rows, type)
     goal = goal(type)
     cells = [
-      {text: "#{type.capitalize} effort goal"},
+      {text: "Points Total"},
       {text: ""},
       {text: goal, class: data_class}
     ]
@@ -151,7 +151,7 @@ class AccountListStatsTable
     when :monthly
       800
     when :group
-      @data.count * 800
+      0
     end
   end
 

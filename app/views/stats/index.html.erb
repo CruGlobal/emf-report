@@ -1,4 +1,4 @@
-<h1>Pick an account</h1>
+<h1>Choose a Report</h1>
 
 <h2>Your Accounts:</h2>
 <ul>
@@ -7,21 +7,23 @@
   <% end %>
 </ul>
 
-<h2>Accounts You Coach:</h2>
+<h2>People You Coach:</h2>
 <ul>
   <% @coaching_account_lists.each do |account_list| %>
     <li><%= link_to account_list['attributes']['name'], stat_weekly_path(account_list['id'], env: params[:env]) %></li>
   <% end %>
 </ul>
 
-<h2>Group Scorecard:</h2>
-<%= form_with url: group_score_card_stats_path, method: :get do |form| %>
+<h2>Group Report:</h2>
+<i>Select the accounts to include in your group report.</i>
 
- <% @coaching_account_lists.each do |account_list| %>
-    <%= form.check_box :stat_ids, {multiple: true}, account_list['id'], nil %>
-    <%= form.label :stat_ids, "#{account_list['attributes']['name']}" %><br>
-    <%= form.hidden_field :env, value: params[:env] %>
-  <% end %>  
-  
+<%= form_with url: group_score_card_stats_path, method: :get do |form| %>
+ <div class="form-inputs">
+    <% @coaching_account_lists.each do |account_list| %>
+      <%= form.check_box :stat_ids, {multiple: true}, account_list['id'], nil %>
+      <%= form.label :stat_ids, "#{account_list['attributes']['name']}" %><br>
+      <%= form.hidden_field :env, value: params[:env] %>
+    <% end %>
+  </div>
   <%= form.submit "View Report" %>
 <% end %>
