@@ -150,7 +150,7 @@ class AccountListStatsTable
       200
     when :monthly
       800
-    when :group
+    else
       0
     end
   end
