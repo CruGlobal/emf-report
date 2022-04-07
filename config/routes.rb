@@ -2,6 +2,9 @@ Rails.application.routes.draw do
   resources :stats, only: [:index] do
     get :weekly
     get :monthly
+    collection do
+      get :group_score_card
+    end
   end
 
   get "login", to: "login#create"

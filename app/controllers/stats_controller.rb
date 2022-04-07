@@ -20,10 +20,21 @@ class StatsController < ApplicationController
     render :show
   end
 
+  def group_score_card
+    @data = {}
+    params[:stat_ids].each do |stat_id|
+      params[:stat_id] = stat_id
+      name = loader.load_account_list["attributes"]["name"]
+      @data[name] = loader.load_stats(:group)
+    end
+    @table = AccountListGroupStatsTable.new(@data).table(:group)
+  end
+
+
   private
 
   def loader
-    @loader ||= AccountListStatsLoader.new(account_list_id: params[:stat_id],
+    @loader = AccountListStatsLoader.new(account_list_id: params[:stat_id],
                                            token: session[:mpdx_token],
                                            env: params[:env])
   end

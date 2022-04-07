@@ -1,0 +1,17 @@
+<h2 class="m-bottom-0">Level of Effort Report for Group</h2>
+
+<p><%= link_to 'View a Different Account', stats_path(env: params[:env]) %></p>
+
+<table>
+  <% @table.each do |row| %>
+  <tr>
+    <% row[:cells].each do |cell| %>
+    <% if row[:type] == 'header' %>
+    <th colspan="<%= cell[:colspan] %>" class="<%= cell[:class] %>"><%= cell[:text] %></th>
+    <% else %>
+    <td colspan="<%= cell[:colspan] %>" class="<%= cell[:class] %>"><%= cell[:text] %></td>
+    <% end %>
+    <% end %>
+  </tr>
+  <% end %>
+</table>

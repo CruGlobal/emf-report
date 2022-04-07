@@ -1,3 +1,7 @@
+.mui-container {
+  margin-bottom: 2em;
+}
+
 .m-top-0 {
   margin-top: 0;
 }
@@ -34,4 +38,8 @@ table {
 
 .cell-data--bold {
   font-weight: bold;
+}
+
+.form-inputs {
+  margin: 1em;
 }

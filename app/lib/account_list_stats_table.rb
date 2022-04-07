@@ -55,7 +55,7 @@ class AccountListStatsTable
 
   def newsletter_row(type)
     cells = [
-      {text: 'Last Prayer Letter (Put an "X" in week it was sent)'},
+      {text: 'Prayer Letter Sent'},
       {text: "Newsletter - Physical or Email"},
       {text: "25", class: data_class}
     ]
@@ -116,9 +116,9 @@ class AccountListStatsTable
   end
 
   def totals_row(previous_rows, type)
-    goal = type == :weekly ? 200 : 800
+    goal = goal(type)
     cells = [
-      {text: "#{type.capitalize} effort goal"},
+      {text: "Points Total"},
       {text: ""},
       {text: goal, class: data_class}
     ]
@@ -142,6 +142,17 @@ class AccountListStatsTable
 
   def data_class(color = :gray, bold = false)
     "cell-data #{cell_class(color, bold)}"
+  end
+
+  def goal(type)
+    case type
+    when :weekly
+      200
+    when :monthly
+      800
+    else
+      0
+    end
   end
 
   def blank_row
