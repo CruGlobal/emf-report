@@ -5,8 +5,8 @@ class AccountListStatsLoader
     @env = env.presence&.to_sym || :prod
   end
 
-  def load_stats(type, target_date = Date.today)
-    tags_data = tags_report(type, target_date)
+  def load_stats(type)
+    tags_data = tags_report(type)
     json = {}
     json["data"] = tags_data["data"].map do |tag_data_row|
       data_range = "#{tag_data_row["attributes"]["start_date"]}..#{tag_data_row["attributes"]["end_date"]}"
@@ -45,8 +45,8 @@ class AccountListStatsLoader
     data
   end
 
-  def tags_report(type, target_date)
-    range = "#{number_of_intervals_between_now_and_target_date(type, target_date)}#{type == :weekly ? "w" : "m"}"
+  def tags_report(type)
+    range = "#{number_of_time_periods(type)}#{type == :weekly ? "w" : "m"}"
     url = "/api/v2/reports/tag_histories?"\
       "filter%5Baccount_list_id%5D=#{@account_list_id}&"\
       "filter%5Bassociation%5D=tasks&"\
@@ -54,20 +54,6 @@ class AccountListStatsLoader
     json = mpdx_rest_get(url)
     json["data"] = json["data"][0..(number_of_time_periods(type) - 1)]
     json
-  end
-
-  def number_of_intervals_between_now_and_target_date(type, target_date)
-    # This calculates # of months between today and target_date (1 added at end because report includes current month)
-    target_difference = (Date.today.year * 12 + Date.today.month) - (target_date.year * 12 + target_date.month) + 1
-
-    case type
-    when :weekly
-      5
-    when :monthly
-      (target_difference if target_difference > 5) || 5
-    else
-      target_difference
-    end
   end
 
   def account_list_analytics(date_range)
