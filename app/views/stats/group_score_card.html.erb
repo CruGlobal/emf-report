@@ -7,6 +7,7 @@
     <%= form.label :target_date, "Select Month:" %>
     <%= form.select :target_date, (0..11).map{ |i| "#{Date::MONTHNAMES[(Date.today - i.month).month]} #{(Date.today-i.month).year}" }, { selected: params[:target_date] } %>
     <%= form.hidden_field :stat_ids, value: "#{params[:stat_ids]}" %>
+    <%= form.hidden_field :goal, value: "#{params[:goal]}" %>
     <%= form.hidden_field :env, value: params[:env] %>
     <%= form.submit "View Report" %>
   </div>

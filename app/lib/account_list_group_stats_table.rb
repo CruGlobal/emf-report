@@ -4,7 +4,7 @@ class AccountListGroupStatsTable < AccountListStatsTable
     @data = @og_data.map{|data| data[1]["data"]}.flatten
   end
 
-  def table(type)
+  def table(type, goal)
     rows = [
       name_header_row(type),
       dates_header_row(type),
@@ -15,7 +15,7 @@ class AccountListGroupStatsTable < AccountListStatsTable
     rows += task_action_rows
     rows << blank_row
     rows += task_tags_rows
-    rows << totals_row(rows, type)
+    rows << totals_row(rows, type, goal)
     rows
   end
 
