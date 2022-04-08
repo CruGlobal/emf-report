@@ -1,5 +1,5 @@
 class StatsController < ApplicationController
-  before_action :ensure_mpdx_active
+  before_action :ensure_mpdx_active, :target_date
 
   def index
     @user_account_lists = loader.load_user_ccount_lists
@@ -15,17 +15,19 @@ class StatsController < ApplicationController
 
   def monthly
     @account_list = loader.load_account_list
-    @data = loader.load_stats(:monthly)
+    @data = loader.load_stats(:monthly, @target_date)
     @table = AccountListStatsTable.new(@data).table(:monthly)
     render :show
   end
 
   def group_score_card
     @data = {}
+    params[:stat_ids] = JSON.parse(params[:stat_ids]) if params[:stat_ids].instance_of?(String)
+
     params[:stat_ids].each do |stat_id|
       params[:stat_id] = stat_id
       name = loader.load_account_list["attributes"]["name"]
-      @data[name] = loader.load_stats(:group)
+      @data[name] = loader.load_stats(:group, @target_date)
     end
     @table = AccountListGroupStatsTable.new(@data).table(:group)
   end
@@ -37,6 +39,10 @@ class StatsController < ApplicationController
     @loader = AccountListStatsLoader.new(account_list_id: params[:stat_id],
                                            token: session[:mpdx_token],
                                            env: params[:env])
+  end
+
+  def target_date
+    @target_date = params[:target_date]&.to_date || Date.today
   end
 
   def ensure_mpdx_active
