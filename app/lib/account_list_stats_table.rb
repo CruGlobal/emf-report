@@ -4,7 +4,7 @@ class AccountListStatsTable
     @data = @data["data"] if @data.key?("data")
   end
 
-  def table(type, goal = nil)
+  def table(type)
     rows = [
       dates_header_row(type),
       main_header_row,
@@ -14,7 +14,7 @@ class AccountListStatsTable
     rows += task_action_rows
     rows << blank_row
     rows += task_tags_rows
-    rows << totals_row(rows, type, goal)
+    rows << totals_row(rows, type)
     rows
   end
 
@@ -115,7 +115,7 @@ class AccountListStatsTable
     end
   end
 
-  def totals_row(previous_rows, type, goal)
+  def totals_row(previous_rows, type)
     goal ||= goal(type)
     cells = [
       {text: "Points Total"},
