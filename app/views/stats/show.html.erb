@@ -4,6 +4,18 @@
 <p>
   <%= link_to 'Weekly', stat_weekly_path(params[:stat_id], env: params[:env]) %> -
   <%= link_to 'Monthly', stat_monthly_path(params[:stat_id], env: params[:env]) %>
+
+  <% if params[:action] == "monthly" %>
+    <%= form_with url: stat_monthly_path, method: :get do |form| %>
+      <div class="form-inputs">
+        <%= form.label :target_date, "Select Month:" %>
+        <%= form.select :target_date, (0..11).map{ |i| "#{Date::MONTHNAMES[(Date.today - i.month).month]} #{(Date.today-i.month).year}" }, { selected: params[:target_date] } %>
+        <%= form.hidden_field :stat_id, value: "#{params[:stat_ids]}" %>
+        <%= form.hidden_field :env, value: params[:env] %>
+        <%= form.submit "View Report" %>
+      </div>
+    <% end %>
+  <% end %>
 </p>
 
 <table>
