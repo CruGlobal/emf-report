@@ -116,7 +116,7 @@ class AccountListStatsTable
   end
 
   def totals_row(previous_rows, type)
-    goal ||= goal(type)
+    goal = goal(type)
     cells = [
       {text: "Points Total"},
       {text: ""},
