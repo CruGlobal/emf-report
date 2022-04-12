@@ -19,7 +19,7 @@
 
 <%= form_with url: group_score_card_stats_path, method: :get do |form| %>
   <div class="form-inputs">
-      <% @coaching_account_lists.each do |account_list| %>
+      <% (@user_account_lists + @coaching_account_lists).each do |account_list| %>
         <%= form.check_box :stat_ids, {multiple: true}, account_list['id'], nil %>
         <%= form.label :stat_ids, "#{account_list['attributes']['name']}" %><br>
     <% end %>
