@@ -35,7 +35,7 @@ class AccountListGroupStatsTable < AccountListStatsTable
     goal ||= goal(type)
     group_sum = 0
     cells = [
-      {text: "Group Goal"},
+      {text: "Group Monthly Points Goal"},
       {text: ""},
       {text: goal, class: data_class}
     ]
