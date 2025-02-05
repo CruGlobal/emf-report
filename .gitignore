@@ -34,4 +34,4 @@ yarn-debug.log*
 
 .env.*
 .idea/
-.DS_store
+.DS_Store
