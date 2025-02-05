@@ -1,11 +1,11 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "2.7.4"
+ruby "3.3.5"
 
 gem "awesome_print"
-gem "rails", "~> 6.1.3", ">= 6.1.3.2"
-gem "pg", "~> 1.1"
+gem 'rails', '~> 7.0.8'
+gem "pg"
 gem "puma", "~> 5.0"
 gem "sprockets-rails", require: "sprockets/railtie"
 
@@ -18,6 +18,7 @@ gem "bootsnap", ">= 1.4.4", require: false
 
 gem "rest-client"
 gem "pry-byebug"
+gem "nokogiri", ">= 1.16.0"
 
 group :development, :test do
   gem "dotenv-rails", "~> 2.7.6", require: "dotenv/rails-now"
