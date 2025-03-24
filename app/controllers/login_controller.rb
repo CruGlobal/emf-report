@@ -2,7 +2,7 @@ class LoginController < ApplicationController
   def create
     authorize_params = OktaOauth.authorize_params(prompt: params[:prompt]&.to_s)
     session[:oauth_state] = authorize_params.state
-    redirect_to authorize_params.redirect_url
+    redirect_to authorize_params.redirect_url, allow_other_host: true
   end
 
   def error
