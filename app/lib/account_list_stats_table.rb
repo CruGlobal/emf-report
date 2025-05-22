@@ -165,23 +165,22 @@ class AccountListStatsTable
 
   def task_action_mappings
     [
-      {name: "Contacts: Referrals Gained", actions: "N/A", points: 3, data_attribute: "contacts.referrals"},
-      {name: "Appointments: Completed", actions: "Appointment", points: 5, data_attribute: "appointments.completed"},
-      {name: "Correspondence: Pre call", actions: "Pre Call Letter", points: 2, data_attribute: "correspondence.precall"},
-      {name: "Correspondence: Support", actions: "Support Letter", points: 2, data_attribute: "correspondence.support_letters"},
-      {name: "Correspondence: Thank You", actions: "Thank", points: 1, data_attribute: "correspondence.thank_yous"},
+      {name: "New Connections Added", actions: "N/A", points: 3, data_attribute: "contacts.new_connections"},
+      {name: "Appointments", actions: "Appointment", points: 5, data_attribute: "appointments.completed"},
+      {name: "Initiation: Letter", actions: "Pre Call Letter", points: 2, data_attribute: "correspondence.precall"},
+      {name: "Initiation: Special Gift Appeal", actions: "Support Letter", points: 2, data_attribute: "correspondence.support_letters"},
+      {name: "Partner Care: Thank You Note", actions: "Thank", points: 1, data_attribute: "correspondence.thank_yous"},
       {name: "Correspondence: Reminder", actions: "Reminder Letter", points: 3, data_attribute: "correspondence.reminders"},
-      {name: "Phone Calls: Outgoing & Received", actions: "Call", points: 1, data_attribute: "phone.attempted+phone.completed+phone.received"},
-      {name: "Phone Calls: Talked to", actions: "Call", points: 2, data_attribute: "phone.completed"},
-      {name: "Electronic Messages: Sent", actions: "Email, Text Message, Facebook Message", points: 1, data_attribute: "electronic.sent"}
+      {name: "Initiation: Phone Call", actions: "Call", points: 2, data_attribute: "phone.attempted+phone.completed+phone.received"},
+      {name: "Electronic Initiations & Follow Ups", actions: "Email, Text Message, Facebook Message", points: 1, data_attribute: "electronic.sent"}
     ]
   end
 
   def task_tags_mappings
     [
-      {name: 'Ask for financial support ("bonus" points) ["ask-financial"]', actions: "Task Tags", points: 5, data_attribute: "tags.ask-financial"},
-      {name: 'Ask for referrals ("bonus" points) ["ask-referrals"]', actions: "Task Tags", points: 5, data_attribute: "tags.ask-referrals"},
-      {name: 'Ask to become an advocate ("bonus" points) ["ask-advocate"]', actions: "Task Tags", points: 10, data_attribute: "tags.ask-advocate"},
+      {name: 'Ask for financial support ("bonus" points) ["ask-financial"]', actions: "Task Tags", points: 5, data_attribute: "tags.ask-financial+tags.asked for support+tags.asked for increase"},
+      {name: 'Ask for referrals ("bonus" points) ["ask-referrals"]', actions: "Task Tags", points: 5, data_attribute: "tags.ask-referrals+tags.ask-connections+tags.asked for connections"},
+      {name: 'Ask to become an advocate ("bonus" points) ["ask-advocate"]', actions: "Task Tags", points: 10, data_attribute: "tags.ask-advocate+tags.asked for advocacy"},
       {name: 'Circle Meeting ("bonus" points) ["circle-meeting"]', actions: "Task Tags", points: 5, data_attribute: "tags.circle-meeting"}
     ]
   end
