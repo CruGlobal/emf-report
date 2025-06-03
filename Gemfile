@@ -5,7 +5,6 @@ ruby "3.3.5"
 
 gem "awesome_print"
 gem 'rails', '~> 7.0.8'
-gem "pg"
 gem "puma", "~> 5.0"
 gem "sprockets-rails", require: "sprockets/railtie"
 
