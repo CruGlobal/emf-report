@@ -122,7 +122,6 @@ GEM
     parallel (1.20.1)
     parser (3.0.1.1)
       ast (~> 2.4.1)
-    pg (1.5.9)
     pry (0.14.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -221,7 +220,6 @@ DEPENDENCIES
   bootsnap
   dotenv-rails (~> 2.7.6)
   nokogiri (>= 1.16.0)
-  pg
   pry-byebug
   puma (~> 5.0)
   rails (~> 7.0.8)
