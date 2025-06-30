@@ -1,10 +1,10 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.2.2'
+ruby '3.3.0'
 
 gem "awesome_print"
-gem 'rails', '~> 7.1.4.2'
+gem 'rails', '~> 8.0.0'
 gem "puma", "~> 5.0"
 gem "sprockets-rails", require: "sprockets/railtie"
 
